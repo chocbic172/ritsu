@@ -1,9 +1,9 @@
 import discord
 import json
 import time
-from google.cloud import texttospeech
+# from google.cloud import texttospeech
 
-ttsclient = texttospeech.TextToSpeechClient.from_service_account_json('C:\\Users\\ethan\\Documents\\google\\Quickstart-51a28cf1263c.json')
+# ttsclient = texttospeech.TextToSpeechClient.from_service_account_json('C:\\Users\\ethan\\Documents\\google\\Quickstart-51a28cf1263c.json')
 client = discord.Client()
 
 data = open("database.json", "r")
@@ -43,22 +43,22 @@ async def on_message(message):
     #     time.sleep(2)
     #     await message.guild.get_member(447530218991910942).kick()
 
-    if message.content.startswith("-say") and message.content.lower()[5:] in database:
-        if len(client.voice_clients) > 0:
-            voice_client = client.voice_clients[0]
-        else:
-            voice_client = await message.channel.guild.voice_channels[0].connect()
-        synthesis_input = texttospeech.SynthesisInput(text=database[message.content.lower()[5:]])
-        voice = texttospeech.VoiceSelectionParams(language_code="en-UK", ssml_gender=texttospeech.SsmlVoiceGender.FEMALE, name="en-IN-Wavenet-A")
-        audio_config = texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3)
-        response = ttsclient.synthesize_speech(input=synthesis_input, voice=voice, audio_config=audio_config)
-        with open("output.mp3", "wb") as out:
-            # Write the response to the output file.
-            out.write(response.audio_content)
-            print('Audio content written to file "output.mp3"')
-        source = await discord.FFmpegOpusAudio.from_probe("output.mp3", executable="ffmpeg.exe", method="fallback")
-        voice_client.play(source)
-        await message.add_reaction("👍")
+    # if message.content.startswith("-say") and message.content.lower()[5:] in database:
+    #     if len(client.voice_clients) > 0:
+    #         voice_client = client.voice_clients[0]
+    #     else:
+    #         voice_client = await message.channel.guild.voice_channels[0].connect()
+    #     synthesis_input = texttospeech.SynthesisInput(text=database[message.content.lower()[5:]])
+    #     voice = texttospeech.VoiceSelectionParams(language_code="en-UK", ssml_gender=texttospeech.SsmlVoiceGender.FEMALE, name="en-IN-Wavenet-A")
+    #     audio_config = texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3)
+    #     response = ttsclient.synthesize_speech(input=synthesis_input, voice=voice, audio_config=audio_config)
+    #     with open("output.mp3", "wb") as out:
+    #         # Write the response to the output file.
+    #         out.write(response.audio_content)
+    #         print('Audio content written to file "output.mp3"')
+    #     source = await discord.FFmpegOpusAudio.from_probe("output.mp3", executable="ffmpeg.exe", method="fallback")
+    #     voice_client.play(source)
+    #     await message.add_reaction("👍")
 
     if message.content.startswith("-play"):
         if len(client.voice_clients) > 0:
